@@ -52,6 +52,18 @@ for (N,typ) in ((LGLSXP,:Int32),(INTSXP,:Int32),(REALSXP,:Float64),(CPLXSXP,:Com
     end
 end
 
+for (N,typ) in ((LGLSXP,:Int32),(INTSXP,:Int32),(REALSXP,:Float64),(CPLXSXP,:Complex128))
+    @eval begin
+        function Base.copyvec(s::SEXP{$N})
+            len = length(s)
+            rv = pointer_to_array(convert(Ptr{$typ},s.p+voffset),len)
+            res = Array($typ, len)
+            map(i->res[i]=rv[i], 1:len)
+            res
+        end
+    end
+end
+
 ## Not sure what to do about R's Logical vectors (SEXP{10}) They are stored as Int32 and can
 ## have missing values.  The DataArray method must copy the values if it is to produce Bool's.
 ## For the time being, I will leave them as Int32's.

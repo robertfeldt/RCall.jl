@@ -8,7 +8,8 @@ end
     export globalEnv,
            R,
            SEXP,
-           libR
+           libR,
+           copyvec
 
 
 if isfile(joinpath(dirname(@__FILE__),"..","deps","deps.jl"))

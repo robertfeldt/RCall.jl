@@ -54,7 +54,7 @@ end
 
 for (N,typ) in ((LGLSXP,:Int32),(INTSXP,:Int32),(REALSXP,:Float64),(CPLXSXP,:Complex128))
     @eval begin
-        function Base.copyvec(s::SEXP{$N})
+        function copyvec(s::SEXP{$N})
             len = length(s)
             rv = pointer_to_array(convert(Ptr{$typ},s.p+voffset),len)
             res = Array($typ, len)
